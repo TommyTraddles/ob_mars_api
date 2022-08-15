@@ -1,0 +1,32 @@
+{
+  "name": "ob-bk-api",
+  "version": "1.0.0",
+  "description": "back tech test",
+  "main": "index.js",
+  "scripts": {
+    "seed": "node script/seed.js",
+    "test": "NODE_ENV=test jest --verbose --silent --detectOpenHandles",
+    "test:watch": "npm run test -- --watchAll",
+    "dev": "NODE_ENV=development nodemon --trace-warnings src/index.js",
+    "start": "NODE_ENV=production node src/index.js",
+    "docker:up": "docker-compose down && docker-compose up",
+    "easter:egg": "node script/easter-egg.js"
+  },
+  "author": "Tommy Traddles",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "slonik": "^24.1.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1",
+    "jest": "^28.1.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19",
+    "supertest": "^6.2.4"
+  },
+  "jest": {
+    "testEnviroment": "node"
+  }
+}
