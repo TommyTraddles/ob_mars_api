@@ -49,7 +49,7 @@ npm run docker:up
 
 Within the main folder, create a `.env`, and update its info based on the `.env-sample` variables:
 
-Create the tables for the database with:
+⛔️ Create the tables for the database with (API wont work if the tables are not created)
 
 ```
 npm run seed
