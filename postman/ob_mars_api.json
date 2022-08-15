@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "85e9cb8f-4de9-47fb-a7e2-c3376a15bf70",
+		"name": "ob_mars_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16463884"
+	},
+	"item": [
+		{
+			"name": "test-1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"surface\": {\n        \"x\": 3,\n        \"y\": 5\n    },\n    \"robots\": [\n        {\n            \"x\": 1,\n            \"y\": 1,\n            \"compass\": \"E\",\n            \"instructions\": \"RFRFRFRF\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"surface\": {\n        \"x\": 5,\n        \"y\": 3\n    },\n    \"robots\": [\n        {\n            \"x\": 3,\n            \"y\": 2,\n            \"compass\": \"N\",\n            \"instructions\": \"FRRFLLFFRRFLL\"\n        },\n        {\n            \"x\": 3,\n            \"y\": 2,\n            \"compass\": \"N\",\n            \"instructions\": \"FRRFLLFFFFFFFRRFLLFFRRFFFFFF\"\n        }\n    ]\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"surface\": {\n        \"x\": 5,\n        \"y\": 3\n    },\n    \"robots\": [\n        {\n            \"x\": 3,\n            \"y\": 2,\n            \"compass\": \"N\",\n            \"instructions\": \"FRRFLLFFRRFLL\"\n        },\n        {\n            \"x\": 3,\n            \"y\": 2,\n            \"compass\": \"N\",\n            \"instructions\": \"FRRFLLFFFRRFLL\"\n        },\n        {\n            \"x\": 0,\n            \"y\": 0,\n            \"compass\": \"E\",\n            \"instructions\": \"FFFFFFFFFFF\"\n        },\n        {\n            \"x\": 0,\n            \"y\": 0,\n            \"compass\": \"E\",\n            \"instructions\": \"FFFFFFFFFFFRRFFFFFRFF\"\n        },\n        {\n            \"x\": 5,\n            \"y\": 3,\n            \"compass\": \"E\",\n            \"instructions\": \"FFFFFFFFFFFRRFFFFFRFF\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-4",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"surface\": {\n        \"x\": 5,\n        \"y\": 3\n    },\n    \"robots\": [\n        {\n            \"x\": 1,\n            \"y\": 1,\n            \"compass\": \"E\",\n            \"instructions\": \"RFRFRFRF\"\n        },\n        {\n            \"x\": 3,\n            \"y\": 2,\n            \"compass\": \"N\",\n            \"instructions\": \"FRRFLLFFRRFLL\"\n        },\n        {\n            \"x\": 0,\n            \"y\": 3,\n            \"compass\": \"W\",\n            \"instructions\": \"LLFFFRFLFL\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-5",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"surface\": {\n        \"x\": 5,\n        \"y\": 3\n    },\n    \"robots\": [\n        {\n            \"x\": 1,\n            \"y\": 1,\n            \"compass\": \"E\",\n            \"instructions\": \"RFRFRFRF\"\n        },\n        {\n            \"x\": 3,\n            \"y\": 2,\n            \"compass\": \"N\",\n            \"instructions\": \"FRRFLLFFRRFLL\"\n        },\n        {\n            \"x\": 0,\n            \"y\": 3,\n            \"compass\": \"W\",\n            \"instructions\": \"LLFFFRFLFL\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-6",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"surface\": {\n    \"x\": 5,\n    \"y\": 3\n  },\n  \"robots\": [\n    {\n      \"x\": 3,\n      \"y\": 2,\n      \"compass\": \"N\",\n      \"instructions\": \"FRRFLLFFRRFLL\"\n    },\n    {\n      \"x\": 3,\n      \"y\": 2,\n      \"compass\": \"N\",\n      \"instructions\": \"FRRFLLFFFRRFLL\"\n    },\n    {\n      \"x\": 0,\n      \"y\": 0,\n      \"compass\": \"E\",\n      \"instructions\": \"FFFFFFFFFFF\"\n    },\n    {\n      \"x\": 0,\n      \"y\": 0,\n      \"compass\": \"E\",\n      \"instructions\": \"FFFFFFFFFFFRRFFFFFRFF\"\n    },\n    {\n      \"x\": 5,\n      \"y\": 3,\n      \"compass\": \"E\",\n      \"instructions\": \"FFFFFFFFFFFRRFFFFFRFF\"\n    }\n  ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}:{{port}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
