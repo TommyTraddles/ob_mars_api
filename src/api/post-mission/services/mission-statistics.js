@@ -18,7 +18,6 @@ async function renderMissionStatistics(db, { INPUT, BOARD }) {
 
   const missionRobotsFinalLogs = []
 
-  // For each robot
   for (let idx in INPUT) {
     idx = Number(idx)
     const { id } = INPUT[idx]
@@ -45,6 +44,7 @@ async function renderMissionStatistics(db, { INPUT, BOARD }) {
         compass: robotJourney[lastIdx].compass,
         lost: robotJourney[lastIdx].lost_signal,
       },
+      robotJourney,
     }
 
     missionRobotsFinalLogs.push(robotLog)
