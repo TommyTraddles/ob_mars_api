@@ -48,7 +48,6 @@ module.exports = (db) => async (req, res, next) => {
       const instruction = instructions[idx]
       idx = Number(idx)
 
-      // IS LOST?
       const { lost_signal } = await searchRobotStatusById(db, {
         robotId: newRobot.info.id,
       })
