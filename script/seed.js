@@ -64,12 +64,12 @@ const { sql } = require('slonik')
         robot_id        uuid            not null default uuid_generate_v4(),
         surface_id      uuid            not null default uuid_generate_v4(),
         mission_id      uuid            not null default uuid_generate_v4(), 
-        step            INTEGER         ,
-        batch           INTEGER         ,
+        step            INTEGER         not null,
+        batch           INTEGER         not null,
         x               INTEGER         not null,
         y               INTEGER         not null,
         compass         CHAR(1)         not null,
-        instruction     CHAR(1)         not null,
+        instruction     CHAR(1)         ,
         lost_signal     BOOLEAN         default false,
         created_at      TIMESTAMP       not null default (now() at time zone 'UTC')
       );  
