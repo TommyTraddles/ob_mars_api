@@ -18,6 +18,7 @@ async function renderMissionStatistics(db, { INPUT, BOARD }) {
 
   const missionRobotsFinalLogs = []
 
+  // For each robot
   for (let idx in INPUT) {
     idx = Number(idx)
     const { id } = INPUT[idx]
@@ -28,8 +29,6 @@ async function renderMissionStatistics(db, { INPUT, BOARD }) {
       { BOARD }
     )
 
-    // console.log({ robotJourney })
-
     const { rows: robotUniqueAreasCovered } =
       await retrieveUniqueSurfacesByRobot(db, { id }, { BOARD })
 
@@ -37,17 +36,15 @@ async function renderMissionStatistics(db, { INPUT, BOARD }) {
 
     const robotLog = {
       robotId: id,
-      resume: {
-        position: [robotJourney[0].x, robotJourney[0].y],
-        compass: robotJourney[0].compass,
-        lost: robotJourney[lastIdx].lost_signal,
-      },
-      lastSeenPlace: [robotJourney[lastIdx].x, robotJourney[lastIdx].y],
       totalExploredSurface: `${robotUniqueAreasCovered.length} m2 | ${~~(
         (100 * robotUniqueAreasCovered.length) /
         totalSurface
       )}%`,
-      robotJourney,
+      resume: {
+        position: [robotJourney[lastIdx].x, robotJourney[lastIdx].y],
+        compass: robotJourney[lastIdx].compass,
+        lost: robotJourney[lastIdx].lost_signal,
+      },
     }
 
     missionRobotsFinalLogs.push(robotLog)
