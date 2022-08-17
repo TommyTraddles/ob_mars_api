@@ -1,3 +1,4 @@
+const { updateRobotLog } = require('./mission-logs')
 const {
   createRobot,
   searchExistingRobot,
@@ -41,6 +42,21 @@ async function robotFactory(
         missionId: BOARD.mission_id,
         surfaceId: BOARD.id,
       }
+    )
+
+    await updateRobotLog(
+      db,
+      {
+        y,
+        x,
+        batch,
+        step: 0,
+        compass: compass,
+        lost_signal: false,
+        robotId: data[0].id,
+        instruction: instructions[0],
+      },
+      { BOARD }
     )
 
     function move({ newRobot }) {
