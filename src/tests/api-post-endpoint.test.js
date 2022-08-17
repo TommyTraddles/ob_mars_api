@@ -1,3 +1,4 @@
+const { apiTestSuite } = require('./test-helper')
 const { app } = require('../index')
 const api = require('supertest')(app)
 
@@ -284,18 +285,6 @@ describe('POST / [Mission Queries]', () => {
     }
 
     const response = await api.post('/').send(received)
-
-    expect(response.status).toEqual(expected.statusCode)
-    expect(JSON.parse(response.text).success).toEqual(expected.success)
-
-    JSON.parse(response.text).missionStatistics.robotLogs.forEach(
-      (robot, robotIdx) => {
-        expect(robot.resume).toEqual(
-          expected.missionStatistics.robotLogs[robotIdx].resume
-        )
-      }
-    )
-
     apiTestSuite({ response, expected })
   })
 
@@ -366,30 +355,71 @@ describe('POST / [Mission Queries]', () => {
     const response = await api.post('/').send(received)
     apiTestSuite({ response, expected })
   })
+
+  
 })
+// two seguidos
+// instructions in Database
 
-function apiTestSuite({ response, expected }) {
-  expect(response.status).toEqual(expected.statusCode)
-  expect(JSON.parse(response.text).success).toEqual(expected.success)
 
-  expect(JSON.parse(response.text).missionStatistics.sentRobots).toEqual(
-    expected.missionStatistics.sentRobots
-  )
-  expect(JSON.parse(response.text).missionStatistics.lostRobots).toEqual(
-    expected.missionStatistics.lostRobots
-  )
-  expect(
-    JSON.parse(response.text).missionStatistics.dangerousZonesIdentified
-  ).toEqual(expected.missionStatistics.dangerousZonesIdentified)
-
-  JSON.parse(response.text).missionStatistics.robotLogs.forEach(
-    (robot, robotIdx) => {
-      expect(robot.resume).toEqual(
-        expected.missionStatistics.robotLogs[robotIdx].resume
-      )
-      expect(robot.robotJourney).toEqual(
-        expected.missionStatistics.robotLogs[robotIdx].robotJourney
-      )
-    }
-  )
-}
+// test('After a robot gets lost, teh following robot should not get lost at the same place', async () => {
+//   const received = {
+//     surface: { x: 5, y: 3 },
+//     robots: [
+//       { x: 3, y: 2, compass: 'N', instructions: 'FRRFLLFFRRFLL' },
+//       { x: 3, y: 2, compass: 'N', instructions: 'FRRFLLFFRRFLL' },
+//     ],
+//   }
+//   const expected = {
+//     statusCode: 200,
+//     success: true,
+//     missionStatistics: {
+//       sentRobots: 2,
+//       lostRobots: 1,
+//       surfaceTotalArea: '15 m2',
+//       totalExploredSurface: '2 m2 | 13%',
+//       exploredSurface: [
+//         { x: 3, y: 2 },
+//         { x: 3, y: 3 },
+//       ],
+//       dangerousZonesIdentified: [{ x: 3, y: 3, compass: 'N' }],
+//       robotLogs: [
+//         {
+//           resume: { position: [3, 2], compass: 'N', lost: false },
+//           totalExploredSurface: '3 m2 | 20%',
+//           robotJourney: [
+//             { step: 0, x: 3, y: 2, compass: 'N' },
+//             { step: 1, x: 3, y: 3, compass: 'N' },
+//             { step: 2, x: 3, y: 3, compass: 'E' },
+//             { step: 3, x: 3, y: 3, compass: 'S' },
+//             { step: 4, x: 3, y: 2, compass: 'S' },
+//             { step: 5, x: 3, y: 2, compass: 'E' },
+//             { step: 6, x: 3, y: 2, compass: 'N' },
+//             { step: 7, x: 3, y: 3, compass: 'N' },
+//             { step: 8, x: 3, y: 4, compass: 'N' },
+//           ],
+//         },
+//         {
+//           resume: { position: [3, 2], compass: 'N', lost: false },
+//           totalExploredSurface: '2 m2 | 13%',
+//           robotJourney: [
+//             { step: 0, x: 3, y: 2, compass: 'N' },
+//             { step: 1, x: 3, y: 3, compass: 'N' },
+//             { step: 2, x: 3, y: 3, compass: 'E' },
+//             { step: 3, x: 3, y: 3, compass: 'S' },
+//             { step: 4, x: 3, y: 2, compass: 'S' },
+//             { step: 5, x: 3, y: 2, compass: 'E' },
+//             { step: 6, x: 3, y: 2, compass: 'N' },
+//             { step: 8, x: 3, y: 3, compass: 'N' },
+//             { step: 9, x: 3, y: 3, compass: 'E' },
+//             { step: 10, x: 3, y: 3, compass: 'S' },
+//             { step: 11, x: 3, y: 2, compass: 'S' },
+//             { step: 12, x: 3, y: 2, compass: 'E' },
+//           ],
+//         },
+//       ],
+//     },
+//   }
+//   const response = await api.post('/').send(received)
+//   apiTestSuite({ response, expected })
+// })
