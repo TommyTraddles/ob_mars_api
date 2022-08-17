@@ -356,5 +356,83 @@ describe('POST / [Mission Queries]', () => {
     apiTestSuite({ response, expected })
   })
 
-  
+  test('After a robot gets lost, the following robots should not get lost at the same place', async () => {
+    const received = {
+      surface: { x: 5, y: 3 },
+      robots: [
+        { x: 3, y: 2, compass: 'N', instructions: 'FRRFLLFFRRFLL' },
+        { x: 3, y: 2, compass: 'N', instructions: 'FRRFLLFFRRFLL' },
+        { x: 3, y: 2, compass: 'N', instructions: 'FRRFLLFFRRFLL' },
+        { x: 3, y: 3, compass: 'N', instructions: 'FFFFFFFFFFFF' },
+      ],
+    }
+    const expected = {
+      statusCode: 200,
+      success: true,
+      missionStatistics: {
+        sentRobots: 4,
+        lostRobots: 1,
+        dangerousZonesIdentified: [{ x: 3, y: 3, compass: 'N' }],
+        robotLogs: [
+          {
+            resume: { position: [3, 3], compass: 'N', lost: true },
+            robotJourney: [
+              { step: 0, x: 3, y: 2, compass: 'N', lost_signal: false },
+              { step: 1, x: 3, y: 3, compass: 'N', lost_signal: false },
+              { step: 2, x: 3, y: 3, compass: 'E', lost_signal: false },
+              { step: 3, x: 3, y: 3, compass: 'S', lost_signal: false },
+              { step: 4, x: 3, y: 2, compass: 'S', lost_signal: false },
+              { step: 5, x: 3, y: 2, compass: 'E', lost_signal: false },
+              { step: 6, x: 3, y: 2, compass: 'N', lost_signal: false },
+              { step: 7, x: 3, y: 3, compass: 'N', lost_signal: true },
+            ],
+          },
+          {
+            resume: { position: [3, 2], compass: 'N', lost: false },
+            robotJourney: [
+              { step: 0, x: 3, y: 2, compass: 'N', lost_signal: false },
+              { step: 1, x: 3, y: 3, compass: 'N', lost_signal: false },
+              { step: 2, x: 3, y: 3, compass: 'E', lost_signal: false },
+              { step: 3, x: 3, y: 3, compass: 'S', lost_signal: false },
+              { step: 4, x: 3, y: 2, compass: 'S', lost_signal: false },
+              { step: 5, x: 3, y: 2, compass: 'E', lost_signal: false },
+              { step: 6, x: 3, y: 2, compass: 'N', lost_signal: false },
+              { step: 7, x: 3, y: 3, compass: 'N', lost_signal: false },
+              { step: 9, x: 3, y: 3, compass: 'E', lost_signal: false },
+              { step: 10, x: 3, y: 3, compass: 'S', lost_signal: false },
+              { step: 11, x: 3, y: 2, compass: 'S', lost_signal: false },
+              { step: 12, x: 3, y: 2, compass: 'E', lost_signal: false },
+              { step: 13, x: 3, y: 2, compass: 'N', lost_signal: false },
+            ],
+          },
+          {
+            resume: { position: [3, 2], compass: 'N', lost: false },
+            robotJourney: [
+              { step: 0, x: 3, y: 2, compass: 'N', lost_signal: false },
+              { step: 1, x: 3, y: 3, compass: 'N', lost_signal: false },
+              { step: 2, x: 3, y: 3, compass: 'E', lost_signal: false },
+              { step: 3, x: 3, y: 3, compass: 'S', lost_signal: false },
+              { step: 4, x: 3, y: 2, compass: 'S', lost_signal: false },
+              { step: 5, x: 3, y: 2, compass: 'E', lost_signal: false },
+              { step: 6, x: 3, y: 2, compass: 'N', lost_signal: false },
+              { step: 7, x: 3, y: 3, compass: 'N', lost_signal: false },
+              { step: 9, x: 3, y: 3, compass: 'E', lost_signal: false },
+              { step: 10, x: 3, y: 3, compass: 'S', lost_signal: false },
+              { step: 11, x: 3, y: 2, compass: 'S', lost_signal: false },
+              { step: 12, x: 3, y: 2, compass: 'E', lost_signal: false },
+              { step: 13, x: 3, y: 2, compass: 'N', lost_signal: false },
+            ],
+          },
+          {
+            resume: { position: [3, 3], compass: 'N', lost: false },
+            robotJourney: [
+              { step: 0, x: 3, y: 3, compass: 'N', lost_signal: false },
+            ],
+          },
+        ],
+      },
+    }
+    const response = await api.post('/').send(received)
+    apiTestSuite({ response, expected })
+  })
 })
