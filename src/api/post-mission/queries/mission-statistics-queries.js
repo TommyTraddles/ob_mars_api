@@ -24,7 +24,7 @@ async function retrieveIdentifiedDangerZones(db, { BOARD }) {
 async function retrieveJourneyByRobot(db, { id }, { BOARD }) {
   return await db.query(sql`
     SELECT
-      step, x, y, lost_signal, compass, instruction
+      step, x, y, compass, lost_signal
     FROM robots_logs 
     WHERE 
       surface_id = ${BOARD.id}
