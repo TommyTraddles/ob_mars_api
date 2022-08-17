@@ -40,45 +40,50 @@ module.exports = (db) => async (req, res, next) => {
       })
     }
 
+    let flaggedZone = false
+
     INPUT[inputIdx].id = newRobot.info.id
     const instructions = newRobot.info.instructions.split('')
     for (let idx in instructions) {
       const instruction = instructions[idx]
       idx = Number(idx)
 
+      // IS LOST?
       const { lost_signal } = await searchRobotStatusById(db, {
         robotId: newRobot.info.id,
       })
 
-      if (!lost_signal) {
-        const executeAction = await updateRobotLog(
-          db,
-          {
-            step: idx,
-            batch: inputIdx,
-            y: newRobot.info.y,
-            x: newRobot.info.x,
-            instruction: instruction,
-            robotId: newRobot.info.id,
-            compass: newRobot.info.compass,
-            lost_signal: newRobot.info.lost_signal,
-          },
-          { BOARD }
-        )
+      if (lost_signal) continue
 
-        if (!executeAction) {
-          return next({
-            success: false,
-            error: new Error(`[Robot ${newRobot.info.id}]: Malfunction`),
-          })
-        }
+      if (flaggedZone) continue
 
-        if (executeAction.avoid_execution) continue
+      instruction == 'F'
+        ? newRobot.move({ newRobot: newRobot.info })
+        : newRobot.rotate({ newRobot: newRobot.info, instruction })
 
-        instruction == 'F'
-          ? newRobot.move({ newRobot: newRobot.info })
-          : newRobot.rotate({ newRobot: newRobot.info, instruction })
+      const executeAction = await updateRobotLog(
+        db,
+        {
+          step: ++idx,
+          batch: inputIdx,
+          y: newRobot.info.y,
+          x: newRobot.info.x,
+          instruction: instruction,
+          robotId: newRobot.info.id,
+          compass: newRobot.info.compass,
+          lost_signal: newRobot.info.lost_signal,
+        },
+        { BOARD }
+      )
+
+      if (!executeAction) {
+        return next({
+          success: false,
+          error: new Error(`[Robot ${newRobot.info.id}]: Malfunction`),
+        })
       }
+
+      if (executeAction.avoid_execution) flaggedZone = true
     }
   }
 
