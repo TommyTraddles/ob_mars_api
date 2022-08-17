@@ -116,16 +116,22 @@ body schema:
 ```json
 {
   "surface": {
-    "x": 3, // number
-    "y": 5 // number
+    // number
+    "x": 3,
+    // number
+    "y": 5
   },
   "robots": [
     // add as many robots Object you want inside this Array
     {
-      "x": 1, // number
-      "y": 1, // number
-      "compass": "E", // char
-      "instructions": "RFRFRFRF" // string
+      // number
+      "x": 1,
+      // number
+      "y": 1,
+      // char
+      "compass": "E",
+      // string
+      "instructions": "RFRFRFRF"
     }
   ]
 }
@@ -156,104 +162,54 @@ body schema:
 {
   "success": true,
   "missionStatistics": {
-    "missionId": "85308e76",
+    // unique UUID id
+    "missionId": "84faad9c…",
+
+    // total count of sent robots
     "sentRobots": 1,
+
+    // total count of lost robots
     "lostRobots": 0,
+
+    // sent surface dimensions
     "surfaceDimentions": [3, 5],
-    "surfaceTotalArea": "15 m2", // calculated area
-    "totalExploredSurface": "4 m2 | 26%", // calculated explored area
+    "surfaceTotalArea": "15 m2",
+
+    // total area covered by all the robots
+    "totalExploredSurface": "4 m2 | 26%",
     "exploredSurface": [
-      // unique identified areas
       { "x": 0, "y": 0 },
       { "x": 0, "y": 1 },
       { "x": 1, "y": 0 },
       { "x": 1, "y": 1 }
     ],
-    "dangerousZonesIdentified": [], // object list of SCENT areas
+
+    // last seen place of all the lost robots
+    "dangerousZonesIdentified": [],
+
+    // information sent for each robot
     "robotLogs": [
       {
-        "robotId": "c87d3f9d",
-        "resume": {
-          "position": [1, 1],
-          "compass": "E",
-          "lost": false
-        },
-        "lastSeenPlace": [1, 1], // last recorded place
-        "totalExploredSurface": "4 m2 | 26%", // total visited area
+        // unique UUID id
+        "robotId": "523e748a…",
+
+        // explored surface
+        "totalExploredSurface": "4 m2 | 26%",
+
+        // last seen place
+        "resume": { "position": [1, 1], "compass": "E", "lost": false },
+
+        // complete journey
         "robotJourney": [
-          // each recorded step by robot
-          {
-            "step": 0,
-            "x": 1,
-            "y": 1,
-            "lost_signal": false,
-            "compass": "E",
-            "instruction": "R"
-          },
-          {
-            "step": 1,
-            "x": 1,
-            "y": 1,
-            "lost_signal": false,
-            "compass": "S",
-            "instruction": "F"
-          },
-          {
-            "step": 2,
-            "x": 1,
-            "y": 0,
-            "lost_signal": false,
-            "compass": "S",
-            "instruction": "R"
-          },
-          {
-            "step": 3,
-            "x": 1,
-            "y": 0,
-            "lost_signal": false,
-            "compass": "W",
-            "instruction": "F"
-          },
-          {
-            "step": 4,
-            "x": 0,
-            "y": 0,
-            "lost_signal": false,
-            "compass": "W",
-            "instruction": "R"
-          },
-          {
-            "step": 5,
-            "x": 0,
-            "y": 0,
-            "lost_signal": false,
-            "compass": "N",
-            "instruction": "F"
-          },
-          {
-            "step": 6,
-            "x": 0,
-            "y": 1,
-            "lost_signal": false,
-            "compass": "N",
-            "instruction": "R"
-          },
-          {
-            "step": 7,
-            "x": 0,
-            "y": 1,
-            "lost_signal": false,
-            "compass": "E",
-            "instruction": "F"
-          },
-          {
-            "step": 8,
-            "x": 1,
-            "y": 1,
-            "lost_signal": false,
-            "compass": "E",
-            "instruction": ""
-          }
+          { "step": 0, "x": 1, "y": 1, "compass": "E", "lost_signal": false },
+          { "step": 1, "x": 1, "y": 1, "compass": "S", "lost_signal": false },
+          { "step": 2, "x": 1, "y": 0, "compass": "S", "lost_signal": false },
+          { "step": 3, "x": 1, "y": 0, "compass": "W", "lost_signal": false },
+          { "step": 4, "x": 0, "y": 0, "compass": "W", "lost_signal": false },
+          { "step": 5, "x": 0, "y": 0, "compass": "N", "lost_signal": false },
+          { "step": 6, "x": 0, "y": 1, "compass": "N", "lost_signal": false },
+          { "step": 7, "x": 0, "y": 1, "compass": "E", "lost_signal": false },
+          { "step": 8, "x": 1, "y": 1, "compass": "E", "lost_signal": false }
         ]
       }
     ]
