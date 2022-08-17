@@ -2,7 +2,16 @@ const { sql } = require('slonik')
 
 async function writeActionOnMissionLog(
   db,
-  { robotId, batch, instruction, step, x, y, compass, lost_signal = false },
+  {
+    robotId,
+    batch,
+    instruction = null,
+    step,
+    x,
+    y,
+    compass,
+    lost_signal = false,
+  },
   { BOARD }
 ) {
   console.log(
@@ -55,7 +64,7 @@ async function isFatalAction(db, { robotId, step }, { BOARD }) {
 }
 
 async function retrieveLastSafeZoneKnown(db, { robotId, step }, { BOARD }) {
-  return db.query(sql`
+  return await db.query(sql`
     SELECT * 
     FROM robots_logs
     WHERE 
@@ -66,7 +75,7 @@ async function retrieveLastSafeZoneKnown(db, { robotId, step }, { BOARD }) {
 }
 
 async function retrieveDangerZone(db, { BOARD }) {
-  return db.query(sql`
+  return await db.query(sql`
     SELECT *
     FROM danger_zones
     WHERE surface_id = ${BOARD.id}
@@ -75,7 +84,7 @@ async function retrieveDangerZone(db, { BOARD }) {
 }
 
 async function createDangerZone(db, { lastSafeZoneKnown }) {
-  return db.query(sql`
+  return await db.query(sql`
     INSERT INTO danger_zones
       (robot_id, surface_id, mission_id, x, y, compass)
     VALUES
@@ -83,16 +92,24 @@ async function createDangerZone(db, { lastSafeZoneKnown }) {
   `)
 }
 
-async function updateRobotLogStatus(db, { robotId }) {
-  return db.query(sql`
+async function updateRobotStatus(db, { robotId }) {
+  return await db.query(sql`
     UPDATE robots
       SET lost_signal = true
       WHERE id = ${robotId}
   `)
 }
 
-async function updateRobotStatus(db, { step, robotId }) {
-  return db.query(sql`
+async function deleteLastRow(db, { step, robotId }) {
+  return await db.query(sql`
+    DELETE FROM robots_logs
+    WHERE robot_id = ${robotId}
+      AND step = ${++step}
+  `)
+}
+
+async function updateRobotLogStatus(db, { step, robotId }) {
+  return await db.query(sql`
     UPDATE robots_logs
       SET lost_signal = true
       WHERE robot_id = ${robotId}
@@ -131,6 +148,7 @@ async function retrieveLastStepStored(db, { robotId }) {
 }
 
 module.exports = {
+  deleteLastRow,
   isFatalAction,
   createDangerZone,
   checkFlaggedZones,

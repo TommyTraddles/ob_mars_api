@@ -2,6 +2,7 @@ const { sql } = require('slonik')
 
 const {
   isFatalAction,
+  deleteLastRow,
   createDangerZone,
   checkFlaggedZones,
   updateRobotStatus,
@@ -13,7 +14,17 @@ const {
 
 async function updateRobotLog(
   db,
-  { batch, robotId, x, y, step, compass, instruction, lost_signal = false },
+  {
+    x,
+    y,
+    step,
+    batch,
+    compass,
+    robotId,
+    instruction = null,
+    lost_signal = false,
+    nextInstruction = null,
+  },
   { BOARD }
 ) {
   try {
@@ -30,12 +41,25 @@ async function updateRobotLog(
         return { avoid_execution: true }
       }
 
-      // Execute the query
+      // mission store nextInstruction on DB
       await writeActionOnMissionLog(
         tx,
-        { robotId, batch, instruction, step, x, y, compass, lost_signal },
+        {
+          x,
+          y,
+          step,
+          batch,
+          robotId,
+          compass,
+          lost_signal,
+          instruction,
+        },
         { BOARD }
       )
+
+      if (zoneIsFlagged[0] && instruction != 'F') {
+        return { avoid_execution: true }
+      }
 
       // If the query is safe
       const { rows: isFatalLog } = await isFatalAction(
@@ -44,12 +68,7 @@ async function updateRobotLog(
         { BOARD }
       )
 
-      
       if (!isFatalLog.length) return { avoid_execution: false }
-      if (zoneIsFlagged[0] && instruction != 'F') {
-        return { avoid_execution: true }
-      }
-      
 
       // If the query is not safe
       console.info('❌ ROBOT LOST', --step)
@@ -63,8 +82,9 @@ async function updateRobotLog(
         { BOARD }
       )
       await createDangerZone(tx, { lastSafeZoneKnown: lastSafeZoneKnown[0] })
-      await updateRobotLogStatus(tx, { robotId })
-      await updateRobotStatus(tx, { step, robotId })
+      await updateRobotStatus(tx, { robotId })
+      await updateRobotLogStatus(tx, { step, robotId })
+      await deleteLastRow(tx, { step, robotId })
       return { avoid_execution: true }
     })
   } catch (error) {
