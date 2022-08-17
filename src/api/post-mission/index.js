@@ -4,7 +4,10 @@ const {
   updateRobotLog,
   renderMissionStatistics,
 } = require('./services')
-const { searchRobotStatusById } = require('./queries/mission-logs-queries')
+const {
+  searchRobotStatusById,
+  checkFlaggedZones,
+} = require('./queries/mission-logs-queries')
 
 module.exports = (db) => async (req, res, next) => {
   const { surface, INPUT } = res.locals
@@ -45,16 +48,31 @@ module.exports = (db) => async (req, res, next) => {
     INPUT[inputIdx].id = newRobot.info.id
     const instructions = newRobot.info.instructions.split('')
     for (let idx in instructions) {
-      const instruction = instructions[idx]
       idx = Number(idx)
 
+      const instruction = instructions[idx]
+
+      // Check if the robot is lost
       const { lost_signal } = await searchRobotStatusById(db, {
         robotId: newRobot.info.id,
       })
-
       if (lost_signal) continue
 
-      if (flaggedZone) continue
+      // Check if the zone is flagged
+      const { rows: zoneIsFlagged } = await checkFlaggedZones(
+        db,
+        {
+          x: newRobot.info.x,
+          y: newRobot.info.y,
+          compass: newRobot.info.compass,
+        },
+        { BOARD }
+      )
+
+      if (zoneIsFlagged[0] && instruction == 'F') {
+        console.info('🟥 Flagged area', idx)
+        continue
+      }
 
       instruction == 'F'
         ? newRobot.move({ newRobot: newRobot.info })

@@ -23,24 +23,11 @@ async function updateRobotLog(
     robotId,
     instruction = null,
     lost_signal = false,
-    nextInstruction = null,
   },
   { BOARD }
 ) {
   try {
     return db.transaction(async (tx) => {
-      // Check if it is a flagged area
-      const { rows: zoneIsFlagged } = await checkFlaggedZones(
-        db,
-        { x, y, compass },
-        { BOARD }
-      )
-
-      if (zoneIsFlagged[0] && instruction == 'F') {
-        console.info('🟥 Flagged area', step)
-        return { avoid_execution: true }
-      }
-
       // mission store nextInstruction on DB
       await writeActionOnMissionLog(
         tx,
@@ -57,20 +44,17 @@ async function updateRobotLog(
         { BOARD }
       )
 
-      if (zoneIsFlagged[0] && instruction != 'F') {
-        return { avoid_execution: true }
-      }
-
-      // If the query is safe
+      // check if the query is safe
       const { rows: isFatalLog } = await isFatalAction(
         tx,
         { robotId, step },
         { BOARD }
       )
 
+      // If the query is safe
       if (!isFatalLog.length) return { avoid_execution: false }
 
-      // If the query is not safe
+      // If the query is unsafe
       console.info('❌ ROBOT LOST', --step)
 
       const { rows: lastStepStored } = await retrieveLastStepStored(db, {
